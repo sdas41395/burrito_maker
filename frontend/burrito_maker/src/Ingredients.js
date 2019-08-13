@@ -84,7 +84,11 @@ class Ingredients extends Component {
     
     return (
       <div style={{paddingTop:'10px'}}>
-        <center><Header as='h1'>Burrito Maker!</Header></center>
+        <center>
+            <Header as='h1'>
+                <div className='rainbow_title'> Mission Burrito </div>
+            </Header>
+        </center>
         <div style={{paddingLeft:'10px'}}>
             {component}
         </div>
@@ -95,6 +99,9 @@ class Ingredients extends Component {
                 <p>        
                     {JSON.stringify(this.props.burrito_data)}
                 </p>
+                <Button onClick={this.handleModal.bind(this)}>
+                    Go Back
+                </Button>
                 <Button>
                     Proceed to Delivery
                 </Button>
