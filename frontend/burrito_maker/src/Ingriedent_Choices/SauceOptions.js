@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Form, Checkbox, Button } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css';
 import {store_ingredient} from '../actions/actions'
+import Tortilla from '../Tortilla'
 
 
 const mapStateToProps = state => {
@@ -94,7 +95,11 @@ class SauceOptions extends Component {
         <Button primary onClick={this.send_to_struct.bind(this,1)}>
             Next Step
         </Button>
-
+        
+        <Tortilla
+            added_ingredients = {this.state.chosen_sauce}
+        />
+        
       </div>
     );
   }

@@ -36,7 +36,8 @@ function intialize_app(state, action) {
                 ingredients : {
                     'meat' : [],
                     'veggie' : [],
-                    'sauce' : []
+                    'sauce' : [],
+                    'rice' : []
                 }
             }
         )

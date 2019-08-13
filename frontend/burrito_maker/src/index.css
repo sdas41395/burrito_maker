@@ -11,3 +11,23 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+  
+.burrito_card{
+  background-image: url("./tortilla.jpg");
+}
+.burrito_card_grid{
+  display: grid;
+  grid-template-columns: 20px 20px 20px 20px 20px 20px 20px 20px;
+  position: absolute;
+  z-index: 1;
+}
+
+.burrito_card_grid_2{
+  display: grid;
+  position: absolute;
+
+  grid-template-columns: 20px 20px 20px 20px 20px 20px 20px 20px;
+  z-index: 2;
+}
+

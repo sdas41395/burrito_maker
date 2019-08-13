@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { Form, Checkbox, Button } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css';
 import {store_ingredient} from '../actions/actions'
+import Tortilla from '../Tortilla'
+
 
 
 
@@ -40,6 +42,8 @@ class VeggieOptions extends Component {
     }
 
     this.setState({chosen_veggie : local_veggie})
+    this.props.store_ingredient('veggie', this.state.chosen_veggie)
+
   }
 
   send_to_struct = (step) => {
@@ -50,7 +54,6 @@ class VeggieOptions extends Component {
     */
     
     if (step > 0){
-        this.props.store_ingredient('veggie', this.state.chosen_veggie)
         this.props.complete_selection(step)
     }
     else{
@@ -89,12 +92,16 @@ class VeggieOptions extends Component {
         </Form.Field>
       </Form>
       {JSON.stringify(this.state.chosen_veggie)}
-      <Button primary onClick={this.send_to_struct.bind(this,-1)}>
+        <Button primary onClick={this.send_to_struct.bind(this,-1)}>
             Go Back
         </Button>
         <Button primary onClick={this.send_to_struct.bind(this,1)}>
             Next Step
         </Button>
+        
+        <Tortilla
+            added_ingredients = {this.state.chosen_veggie}
+        />
 
       </div>
     );

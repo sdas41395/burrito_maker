@@ -18,22 +18,22 @@ const mapDispatchToProps = {
     store_ingredient
 };
 
-class MeatOptions extends Component {
+class RiceOptions extends Component {
   constructor(props) {
     super(props);
     this.add_ingredients_array = this.add_ingredients_array.bind(this)
   }
   state = {
-    ingredient : 'meat',
-    chosen_meats : []
+    ingredient : 'rice',
+    chosen_rice : []
   };
   
 
   add_ingredients_array = (value) => {
-    // Adds or removes meat from meat array
-    var local_meats = this.state.chosen_meats
+    // Adds or removes rice from rice array
+    var local_meats = this.state.chosen_rice
 
-    // If the meat is already added remove it for unclick
+    // If the rice is already added remove it for unclick
     if (local_meats.includes(value) === true){
         var index = local_meats.indexOf(value)
         local_meats.splice(index,1)
@@ -42,8 +42,9 @@ class MeatOptions extends Component {
         local_meats.push(value)
     }
 
-    this.setState({chosen_meats : local_meats})
-    this.props.store_ingredient('meat', this.state.chosen_meats)
+    this.setState({chosen_rice : local_meats})
+    this.props.store_ingredient('rice', this.state.chosen_rice)
+
   }
 
   send_to_struct = (step) => {
@@ -52,13 +53,12 @@ class MeatOptions extends Component {
         Pass state values to central data struct using actions and reducers
         Update UI to next page or previous page
     */
-    
     if (step > 0){
         this.props.complete_selection(step)
     }
     else{
         // User wants to return back. Set central struct to 0 to allow them to reselect
-        this.props.store_ingredient('meat', [])
+        this.props.store_ingredient('rice', [])
         this.props.complete_selection(step)
     }
   }
@@ -72,45 +72,33 @@ class MeatOptions extends Component {
         </Form.Field>
         <Form.Field>
           <Checkbox
-            label='Steak'
+            label='WhiteRice'
             name='checkboxRadioGroup'
-            value='steak'
-            checked={this.state.chosen_meats.includes('steak')}
-            onChange={this.add_ingredients_array.bind(this,'steak')}
+            value='white_rice'
+            checked={this.state.chosen_rice.includes('white_rice')}
+            onChange={this.add_ingredients_array.bind(this,'white_rice')}
           />
         </Form.Field>
         <Form.Field>
           <Checkbox
-            label='Chicken'
+            label='BrownRice'
             name='checkboxRadioGroup'
-            value='chicken'
-            checked={this.state.chosen_meats.includes('chicken')}
-            onChange={this.add_ingredients_array.bind(this,'chicken')}
-          />
-        </Form.Field>
-        <Form.Field>
-          <Checkbox
-            label='Pork'
-            name='checkboxRadioGroup'
-            value='pork'
-            checked={this.state.chosen_meats.includes('pork')}
-            onChange={this.add_ingredients_array.bind(this,'pork')}
+            value='brown_rice'
+            checked={this.state.chosen_rice.includes('brown_rice')}
+            onChange={this.add_ingredients_array.bind(this,'brown_rice')}
           />
         </Form.Field>
       </Form>
 
-        {JSON.stringify(this.state.chosen_meats)}
-        <Button primary onClick={this.send_to_struct.bind(this,-1)}>
-            Go Back
-        </Button>
-        <Button primary onClick={this.send_to_struct.bind(this,1)}>
+        {JSON.stringify(this.state.chosen_rice)}
+        <Button primary onClick={this.send_to_struct.bind(this, 1)}>
             Next Step
         </Button>
-            
+          
         <Tortilla
-            added_ingredients = {this.state.chosen_meats}
+          ingredient = 'rice'
         />
-
+        
       </div>
     );
   }
@@ -120,5 +108,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(MeatOptions)
+  )(RiceOptions)
 );
