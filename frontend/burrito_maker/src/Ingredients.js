@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { Form, Checkbox } from 'semantic-ui-react'
-import { Header, Button, Card } from 'semantic-ui-react'
+import { Header, Button, Card, Image, Modal } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css';
 import MeatOptions from './Ingriedent_Choices/MeatOptions'
 import VeggieOptions from './Ingriedent_Choices/VeggieOptions'
@@ -15,7 +15,7 @@ import './index.css'
 
 const mapStateToProps = state => {
   return {
-    burrito_data : state.burrito_data
+    burrito_data : state.burrito_data.ingredients
   };
 };
 
@@ -28,6 +28,7 @@ class Ingredients extends Component {
   }
   state = {
     ingredient : 'rice',
+    final_modal: false,
     ingredient_order : ['rice', 'meat','veggie','sauce', 'final']
   };
   
@@ -40,6 +41,9 @@ class Ingredients extends Component {
     this.setState({ingredient: this.state.ingredient_order[(current_index + step) % 4]})
   }
 
+  handleModal = () => {
+      this.setState({final_modal : !this.state.final_modal})
+  }
 
 
 
@@ -72,16 +76,31 @@ class Ingredients extends Component {
     if (current_ingredient === 'sauce'){
         component = (
             <SauceOptions
-                complete_selection = {this.handle_step}
+                finalize_modal_call = {this.handleModal}
             />
         )
     }
     
+    
     return (
-      <div>
+      <div style={{paddingTop:'10px'}}>
         <center><Header as='h1'>Burrito Maker!</Header></center>
-        {component}
-        
+        <div style={{paddingLeft:'10px'}}>
+            {component}
+        </div>
+        <Modal open={this.state.final_modal} onClose={this.handleModal.bind(this)}>
+            <Modal.Header>Review your Order</Modal.Header>
+            <Modal.Content image>
+            <Modal.Description>
+                <p>        
+                    {JSON.stringify(this.props.burrito_data)}
+                </p>
+                <Button>
+                    Proceed to Delivery
+                </Button>
+            </Modal.Description>
+            </Modal.Content>
+        </Modal>
       </div>
     );
   }

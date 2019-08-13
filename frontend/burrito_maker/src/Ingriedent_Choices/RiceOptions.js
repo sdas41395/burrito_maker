@@ -66,6 +66,11 @@ class RiceOptions extends Component {
   render(){
     return (
       <div>
+        <center>  
+        <Tortilla
+          ingredient = 'rice'
+          added_ingredients = {this.state.chosen_rice}
+        />
         <Form>
         <Form.Field>
           Choose your types of protein
@@ -89,16 +94,14 @@ class RiceOptions extends Component {
           />
         </Form.Field>
       </Form>
-
-        {JSON.stringify(this.state.chosen_rice)}
+      <br/>
         <Button primary onClick={this.send_to_struct.bind(this, 1)}>
             Next Step
         </Button>
           
-        <Tortilla
-          ingredient = 'rice'
-        />
-        
+      
+      </center>
+
       </div>
     );
   }

@@ -66,9 +66,14 @@ class MeatOptions extends Component {
   render(){
     return (
       <div>
+        <center>
+        <Tortilla
+            ingredient = 'meat'
+            added_ingredients = {this.state.chosen_meats}
+        />
         <Form>
         <Form.Field>
-          Choose your types of protein
+        Choose your types of protein
         </Form.Field>
         <Form.Field>
           <Checkbox
@@ -98,18 +103,16 @@ class MeatOptions extends Component {
           />
         </Form.Field>
       </Form>
-
-        {JSON.stringify(this.state.chosen_meats)}
+        <br/>
         <Button primary onClick={this.send_to_struct.bind(this,-1)}>
-            Go Back
+            Rice
         </Button>
         <Button primary onClick={this.send_to_struct.bind(this,1)}>
             Next Step
         </Button>
-            
-        <Tortilla
-            added_ingredients = {this.state.chosen_meats}
-        />
+        
+        
+        </center>
 
       </div>
     );

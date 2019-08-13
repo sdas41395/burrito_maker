@@ -33,14 +33,24 @@ class Emoji extends Component {
         /*
             Randomizes the size of the emojis for a better look
         */
-        var min=15; 
-        var max=40;
+        
         
         console.log(this.props.label)
         if(this.props.label === 'rice'){
             random = 25
         }
         else{
+            var min=15; 
+            var max=35;
+
+            if(this.props.label === 'veggie'){
+                min=15; 
+                max=30;
+            }
+            if(this.props.label === 'sauce'){
+                min=10; 
+                max=15;
+            }
             var random = Math.random() * (+max - +min) + +min; 
         }
         return (random)

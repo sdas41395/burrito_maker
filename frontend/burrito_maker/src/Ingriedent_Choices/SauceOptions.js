@@ -40,6 +40,8 @@ class SauceOptions extends Component {
     }
 
     this.setState({chosen_sauce : local_sauce})
+    this.props.store_ingredient('sauce', this.state.chosen_sauce)
+
   }
 
   send_to_struct = (step) => {
@@ -50,13 +52,12 @@ class SauceOptions extends Component {
     */
     
     if (step > 0){
-        this.props.store_ingredient('sauce', this.state.chosen_sauce)
-        this.props.complete_selection(step)
+        this.props.finalize_modal_call()
     }
     else{
         // User wants to return back. Set central struct to 0 to allow them to reselect
         this.props.store_ingredient('sauce', [])
-        this.props.complete_selection(step)
+        this.props.finalize_modal_call()
     }
   }
 
@@ -65,40 +66,43 @@ class SauceOptions extends Component {
   render(){
     return (
       <div>
+        <center>
+        <Tortilla
+            added_ingredients = {this.state.chosen_sauce}
+        />
         <Form>
         <Form.Field>
           Choose your sauces
         </Form.Field>
         <Form.Field>
           <Checkbox
-            label='White'
+            label='Hot Pepper Sauce'
             name='checkboxRadioGroup'
-            value='white'
-            checked={this.state.chosen_sauce.includes('white')}
-            onChange={this.add_ingredients_array.bind(this,'white')}
+            value='pepper'
+            checked={this.state.chosen_sauce.includes('pepper')}
+            onChange={this.add_ingredients_array.bind(this,'pepper')}
           />
         </Form.Field>
         <Form.Field>
           <Checkbox
-            label='Red'
+            label='Cheese'
             name='checkboxRadioGroup'
-            value='red'
-            checked={this.state.chosen_sauce.includes('red')}
-            onChange={this.add_ingredients_array.bind(this,'red')}
+            value='cheese'
+            checked={this.state.chosen_sauce.includes('cheese')}
+            onChange={this.add_ingredients_array.bind(this,'cheese')}
           />
         </Form.Field>
       </Form>
       {JSON.stringify(this.state.chosen_veggie)}
+      <br/>
       <Button primary onClick={this.send_to_struct.bind(this,-1)}>
-            Go Back
+            Vegetables
         </Button>
         <Button primary onClick={this.send_to_struct.bind(this,1)}>
-            Next Step
+            Finish Order
         </Button>
-        
-        <Tortilla
-            added_ingredients = {this.state.chosen_sauce}
-        />
+        </center>
+
         
       </div>
     );

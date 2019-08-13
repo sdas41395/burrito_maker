@@ -68,18 +68,14 @@ class VeggieOptions extends Component {
   render(){
     return (
       <div>
+        <center>
+        <Tortilla
+          ingredient = 'veggie'
+          added_ingredients = {this.state.chosen_veggie}        
+        />
         <Form>
         <Form.Field>
           Choose your veggies
-        </Form.Field>
-        <Form.Field>
-          <Checkbox
-            label='Beans'
-            name='checkboxRadioGroup'
-            value='beans'
-            checked={this.state.chosen_veggie.includes('beans')}
-            onChange={this.add_ingredients_array.bind(this,'beans')}
-          />
         </Form.Field>
         <Form.Field>
           <Checkbox
@@ -90,18 +86,44 @@ class VeggieOptions extends Component {
             onChange={this.add_ingredients_array.bind(this,'corn')}
           />
         </Form.Field>
+        <Form.Field>
+          <Checkbox
+            label='Lettuce'
+            name='checkboxRadioGroup'
+            value='lettuce'
+            checked={this.state.chosen_veggie.includes('lettuce')}
+            onChange={this.add_ingredients_array.bind(this,'lettuce')}
+          />
+        </Form.Field>
+        <Form.Field>
+          <Checkbox
+            label='Avacado'
+            name='checkboxRadioGroup'
+            value='avacado'
+            checked={this.state.chosen_veggie.includes('avacado')}
+            onChange={this.add_ingredients_array.bind(this,'avacado')}
+          />
+        </Form.Field>
+        <Form.Field>
+          <Checkbox
+            label='Mushrooms'
+            name='checkboxRadioGroup'
+            value='mushrooms'
+            checked={this.state.chosen_veggie.includes('mushrooms')}
+            onChange={this.add_ingredients_array.bind(this,'mushrooms')}
+          />
+        </Form.Field>
       </Form>
-      {JSON.stringify(this.state.chosen_veggie)}
+        <br/>
         <Button primary onClick={this.send_to_struct.bind(this,-1)}>
-            Go Back
+            Meat
         </Button>
         <Button primary onClick={this.send_to_struct.bind(this,1)}>
             Next Step
         </Button>
         
-        <Tortilla
-            added_ingredients = {this.state.chosen_veggie}
-        />
+        </center>
+        
 
       </div>
     );
