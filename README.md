@@ -47,3 +47,18 @@ ruin the page.
 In addition, the backend could handle authentication and even provide templates of known liked burrito combinations
 Also, different deliverers other than Chorizo could be added which provide another layer of complexity to the app and database.
 The smtp server also sends a plain text email for the burrito. This can be improved by providing direct html.
+
+
+To Run Locally
+--------------
+Frontend:
+1) cd /frontend/burrito_maker/
+2) yarn install (if using npm use the react_scripts provided)
+3) yarn start
+
+Backend:
+1) cd /backend/
+2) virtualenv env (certain packages need installing)
+3) source ./env/bin/activate
+4) pip install -r requirements.txt
+5) python application.py
