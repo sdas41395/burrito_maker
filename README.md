@@ -33,10 +33,10 @@ In production that would not be provided locally
 
 Frontend
 --------
-The frontend is built in react-redux. I like using redux because it provides better control on the data model the frontend has to work with
+The frontend is built in react-redux. I like using redux because it provides better control on the data model the frontend has to work with.
 It allows for a central store that can be accessed and modified by all components in the application. 
 The application is also split into two routes with the Tracker route being inaccessible when loaded directly. I did this intentionally to make the user
-go through the burrito making process in order to check on delivery or tracking data. That way the tracker avoids running into empty datasets
+go through the burrito making process in order to check on delivery or tracking data. That way the tracker avoids running into empty datasets.
 In addition the burrito emoji stacking has random heights associated with each emoji present on the burrito. The differing emoji sizes
 gives it a better look where all the ingredients are stacked but still shown.
 
