@@ -9,6 +9,7 @@ import Tortilla from '../Tortilla'
 
 const mapStateToProps = state => {
   return {
+    burrito_data : state.burrito_data.ingredients
   };
 };
 
@@ -25,6 +26,13 @@ class SauceOptions extends Component {
     chosen_sauce : []
   };
   
+  componentDidMount(){
+    var local_sauce = []
+    for (var sauce_option in this.props.burrito_data.sauce){
+      local_sauce.push(this.props.burrito_data.sauce[sauce_option])
+    }
+    this.setState({chosen_sauce : local_sauce})
+  }
 
   add_ingredients_array = (value) => {
     // Adds or removes veggie from veggie array

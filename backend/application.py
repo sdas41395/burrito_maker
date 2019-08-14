@@ -14,7 +14,27 @@ import smtplib
 
 app = Flask(__name__)
 
+'''
+                                                        Burrito Maker Backend
+    This file describes in entirety the backend of the application which deals with database interactions. 
+    The server utilizes a mongodbconnection that has been whitelisted for all users
+    Note that the email as well as the mongo connection relies on a config.py file located in the same directory
+    In production I would utilize more environment variables but given this time limit, figured it for the best for now
+
+
+
+
+'''
+
 # ----------------------------- Helper Functions -------------------------
+'''
+    These funcitons describe either connecting to the smtp email server or mongo server, and the mongodb interactions
+    Each function has three returns:
+        Boolean value : describes end result of the helper function
+        Data Struct : usually describes the modified data object or retrieved data object.
+        msg : the error message or success message to aid in debugging
+
+'''
 
 def mongo_db_connection(db_name, collection):
     '''
@@ -29,7 +49,8 @@ def mongo_db_connection(db_name, collection):
 
     '''
     try:
-        client = MongoClient("mongodb://admin:picnichealth@cluster0-shard-00-00-hzhjd.mongodb.net:27017,cluster0-shard-00-01-hzhjd.mongodb.net:27017,cluster0-shard-00-02-hzhjd.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true")
+        url = configObject['mongo_url']
+        client = MongoClient(url)
         db = client[db_name]
         collection = db[collection]
 
@@ -102,6 +123,22 @@ def gmail_connection(receiver, burrito_order):
 def add_order_mongo(collection, burrito_order):
     '''
     Adds the burrito order to the mongodb
+    Parameters:
+        collection : database object
+        burrito_order : ingredients object selecte by user
+                      : {
+                          email : xxxx@gmail.com,
+                          order : {
+                              'meat' : ['steak', 'pork'],
+                              'veggie' : ['corn' , 'avocado'],
+                              'rice' : [],
+                              'sauce' : []
+                          }
+                        }
+    Returns:
+        Boolean Flag
+        Inserted Object
+        Flag Message
     '''
     try:
         currentDT = datetime.datetime.now()
@@ -114,7 +151,7 @@ def add_order_mongo(collection, burrito_order):
             'order' : order,
             'delivered' : '',
             'rating' : '',
-            'status' : ['Ordered!']
+            'status' : [{'0':'Ordered!'}]
         }
 
         cursor = collection.insert_one(insertion_dict)
@@ -127,7 +164,15 @@ def add_order_mongo(collection, burrito_order):
 
 def update_order_mongo(collection, _id, status):
     '''
-    Update the user's burrito order status in mongodb
+    Updates an order based on passed in _id with status
+    Parameters:
+        collection : database object
+        _id : ticket of the order
+        status : status to be appended to the status array
+    Returns:
+        Boolean Flag
+        Updated Object
+        Flag Message
     '''
     user_document = {}
     try:
@@ -141,6 +186,8 @@ def update_order_mongo(collection, _id, status):
         else:
             if status != 'Delivered!':
                 cursor = collection.update_one({'_id' : ObjectId(_id)}, {"$push" : {'status' : status}}, upsert = True)
+                cursor_user['status'].append(status)
+
             else:
                 deliveredDT = str(datetime.datetime.now())
                 cursor_user['delivered'] = deliveredDT
@@ -157,12 +204,17 @@ def update_order_mongo(collection, _id, status):
 def return_past_orders(collection):
     '''
     Returns all past orders 
+    Parameters:
+        collection : database object
+    Returns:
+        Boolean Flag
+        All previous tickets in the database
+        Flag Message
     '''
     order_array = []
     try:
         cursor = collection.find({})
         for document in cursor:
-            print document
             order_array.append(json.loads(json_util.dumps(document)))
         return True, order_array, "successful return of all documents"
 
@@ -172,19 +224,139 @@ def return_past_orders(collection):
 def return_single_order(collection, order_id):
     '''
     Returns single order based on order id
+    Parameters:
+        collection : database object
+        order_id : order ticket to retrieve data from
+    Returns:
+        Boolean Flag
+        Single ticket data
+        Flag Message
     '''
-    order_array = []
+    cursor_user = {}
     try:
-        cursor = collection.find({})
-        for document in cursor:
-            print document
-            order_array.append(json.loads(json_util.dumps(document)))
-        return True, order_array, "successful return of all documents"
+        cursor_user = collection.find_one({"_id" : ObjectId(order_id)})
+
+        if cursor_user == None:
+            return False, {}, 'unable to find order id'
+        else:
+            print cursor_user
+            return True, json.loads(json_util.dumps(cursor_user)), 'successful return of cursor object'
 
     except Exception as e:
-        return False, order_array, e
+        return False, cursor_user, e
+
+def update_tip_amount(collection, tip):
+    '''
+    Updates the tip field in the database by the passed in tip
+    Parameters:
+        collection : database object
+        tip : tip amount given by user
+    
+    Returns:
+        Boolean Flag
+        The tip data struct
+        Flag Message
+    '''
+    cursor_management = {}
+    try:
+        cursor_management = collection.find({})
+
+        if cursor_management == None:
+            return False, {}, 'unable to find order id'
+        else:
+            tip_db = cursor_management[0]
+            id_object = tip_db['_id']
+            tip_amount = int(tip_db['tip']) + int(tip)
+            cursor = collection.update_one({'_id' : ObjectId(id_object)}, {"$set" : {'tip' : str(tip_amount)}}, upsert = True)
+
+            return True, json.loads(json_util.dumps(cursor_management)), 'successful return of cursor object'
+
+    except Exception as e:
+        return False, cursor_management, e
+
+
+
+
+
 
 # ----------------------------- Routing -------------------------
+'''
+    This section of server code describes the REST guidelines for interacting with the server
+
+    All of the routes follow the same strategy:
+    1) Attempt a database connection to the associated collection
+    2) Run helper database helper function
+    3) Check flags for confirmation before returning response dictionary
+
+'''
+@app.route('/mongo/add_tip', methods=['POST'])
+def add_tip_route():
+    '''
+    Adds a tip to the stored database of tips
+    '''
+    response = {}
+    bool_return = False
+    order_data = {}
+    msg = ''
+
+    try:
+        db,collection = mongo_db_connection('mission_burrito_delivery', 'mission_management')
+    except:
+        response['status'] = 500
+        response['message'] = 'Unable to connect to mongo database'
+        return jsonify(response)
+
+    user_data = request.data
+    dataDict = json.loads(user_data)
+    tip = dataDict['tip']
+
+    bool_return, tip_data, msg = update_tip_amount(collection, tip)
+    
+    if bool_return == True:
+        response['status'] = 200
+    else:
+        response['status'] = 500
+
+    response['message'] = msg
+    response['data'] = tip_data
+
+    return jsonify(response)
+    
+
+@app.route('/mongo/check_order', methods=['GET'])
+def check_order_route():
+    '''
+    Checks a single document's order in the database and returns its data
+    '''
+    response = {}
+    bool_return = False
+    order_data = {}
+    msg = ''
+
+    try:
+        db,collection = mongo_db_connection('mission_burrito_delivery', 'burrito_orders')
+    except:
+        response['status'] = 500
+        response['message'] = 'Unable to connect to mongo database'
+        return jsonify(response)
+
+    user_data = request.data
+    dataDict = json.loads(user_data)
+    order_id = dataDict['_id']
+
+    print order_id
+
+    bool_return, order_data, msg = return_single_order(collection, order_id)
+    
+    if bool_return == True:
+        response['status'] = 200
+    else:
+        response['status'] = 500
+
+    response['message'] = msg
+    response['data'] = order_data
+    return jsonify(response)
+    
 
 @app.route('/mongo/return_all', methods=['GET'])
 def return_all_route():

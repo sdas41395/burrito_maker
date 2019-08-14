@@ -27,23 +27,18 @@ class Tortilla extends Component {
   state = {
   };
 
-  componentDidMount(){
-      console.log('Intilized Tortilla')
-
-  }
-
-  componentDidUpdate(){
-      console.log("Updating Tortilla")
-  }
+  /*
+                                            TORTILLA
+                                
+    Layer the emojis on top of each other on top of the image background of the tortilla
+    The layers are manually designated with the rice taking the majority followed by meat, veggie, sauce
+    The emoji's specifications are dictated by the Emoji object
+  */
   
   render(){
     const component_render = []
     for(var group = 0; group < Object.keys(this.props.burrito_data).length; group++){
         let ingredient = Object.keys(this.props.burrito_data)[group] 
-        
-        console.log(ingredient)
-        console.log(Object.keys(this.props.burrito_data))
-
         if (ingredient === 'rice'){
             let rice_html = []
             let tortilla_area = (8 * 9) / this.props.burrito_data.rice.length

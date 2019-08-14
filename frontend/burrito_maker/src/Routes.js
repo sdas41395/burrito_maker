@@ -13,6 +13,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {};
 
+/*
+  Basic Routing page
+  Only two routes being ingredients and the burrito tracker
+*/
+
 class Routes extends Component {
   render() {
     return (

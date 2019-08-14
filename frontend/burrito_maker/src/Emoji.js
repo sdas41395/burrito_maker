@@ -31,11 +31,9 @@ class Emoji extends Component {
 
     random_size(){
         /*
-            Randomizes the size of the emojis for a better look
-        */
-        
-        
-        console.log(this.props.label)
+            Randomizes the size of the emojis based on their type for a better look
+            Needed for stacking the emojis on top of each other
+        */        
         if(this.props.label === 'rice'){
             random = 25
         }

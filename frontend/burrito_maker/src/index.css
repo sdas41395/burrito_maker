@@ -12,7 +12,6 @@ code {
     monospace;
 }
 
-
 .burrito_card{
   background-image: url("./tortilla.jpg");
 }
@@ -31,6 +30,14 @@ code {
   z-index: 2;
 }
 
+
+.ui.active.progress .bar{
+  background-color: #818D92!important
+}
+.ui.progress{
+  background-color: #ebf5ee!important;
+}
+
 .tracker_id_burrito_list{
   display: grid;
   grid-template-columns: 300px 300px
@@ -38,19 +45,18 @@ code {
 
 .tracker_id_burrito_ingredient_list{
   display: grid;
-  grid-template-columns: 100px 100px;
+  grid-template-columns: 90px 90px;
 }
 
 .tracker_id_burrito_information_layout{
   display: grid;
-  grid-template-columns: 30% 50%;
+  grid-template-columns: 30% 40% 30%;
 }
 
-
-.rainbow_title{
-  background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.tracker_id_previous_records_layout{
+  display: grid;
+  grid-template-columns: 130px 200px;
 }
+
 
 

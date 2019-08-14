@@ -12,6 +12,7 @@ import RiceOptions from './Ingriedent_Choices/RiceOptions'
 import Emoji from './Emoji'
 import './index.css'
 import configObject from './config'
+import Background from './background.png';
 
 
 
@@ -29,14 +30,21 @@ class Ingredients extends Component {
     super(props);
   }
   state = {
-    ingredient : 'rice',
-    final_modal: false,
-    ingredient_order : ['rice', 'meat','veggie','sauce', 'final'],
-    redirect_email:false,
-    redirect_finalize : false,
-    email: '',
-    order_id:'',
+    ingredient : 'rice', // Starting panel
+    final_modal: false, // Modal to advance user to tracking page  
+    ingredient_order : ['rice', 'meat','veggie','sauce', 'final'], // Order of selection
+    redirect_email:false, // Flag to advance the modal to a mandatory email entry
+    redirect_finalize : false, // Final check. If true redirects user to tracking page with state objects passed with the user
+    email: '', // Basic input variable
+    order_id:'', // The ticket order given by the database
   };
+
+  /*
+                            MAIN LANDING PAGE
+        This file describes the layout of ingredient selection page. 
+        Redirects the user to tracking once the order is fully regiestered
+
+  */
   
 
   // ------------------- HELPER FUNCTIONS ----------------------------------------
@@ -61,18 +69,20 @@ class Ingredients extends Component {
   }
 
   registerOrder = () => {
+    // This function registers the user's burrito in the database for tracking and delivery
     return this.fetchRegisterOrder().then(response => {
         var parsed_response = JSON.parse(response);
         var status = parsed_response['status']
         if (status === 200){
-            this.setState({'order_id' : parsed_response['data']['receipt_id']})
-            this.setState({redirect_finalize : !this.state.redirect_finalize})
+            this.setState({'order_id' : parsed_response['data']['receipt_id']}) // Storing the user's burrito ticket
+            this.setState({redirect_finalize : !this.state.redirect_finalize}) // Moving the user to tracking page
         }
       }
     );
   };
 
   fetchRegisterOrder = () => {
+    // Fetch function
     var body_post = {
         "burrito_order":{
             "email" : this.state.email,
@@ -95,6 +105,9 @@ class Ingredients extends Component {
 
 
   // -------------------------------------------------------------------------------
+
+
+
   render(){
     const current_ingredient = this.state.ingredient
     let component
@@ -131,6 +144,7 @@ class Ingredients extends Component {
     
     
     return (
+    <div style={{ backgroundImage : `url(${Background})`, backgroundSize:'cover', backgroundPosition:'center', backgroundRepeat:'no-repeat', height:'100vh'}}>
       <div style={{paddingTop:'10px'}}>
         {this.state.redirect_finalize === true && 
             <Redirect
@@ -145,9 +159,13 @@ class Ingredients extends Component {
             />
         }
         <center>
-            <Header as='h1'>
-                <div className='rainbow_title'> Mission Burrito </div>
-            </Header>
+        <Card style={{width:400, height:600}}>
+        <center>
+            <div style={{paddingTop:10}}>
+                <Header as='h1'>
+                    <div style={{color:'#4c4b63'}}> Build Your Mission Burrito </div>
+                </Header>
+            </div>
         </center>
         <div style={{paddingLeft:'10px'}}>
             {component}
@@ -257,6 +275,9 @@ class Ingredients extends Component {
                 </Modal.Content>
             </Modal>
         </div>
+        </Card>
+        </center>
+      </div>
       </div>
     );
   }
