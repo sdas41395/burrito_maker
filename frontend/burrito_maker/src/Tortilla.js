@@ -147,9 +147,6 @@ class Tortilla extends Component {
                     if (added_ingredients_array[x] === 'cheese'){
                         sauce_html.push(<Emoji symbol="🧀" label="sauce"/>)
                     }
-                    if (added_ingredients_array[x] === 'mushrooms'){
-                        sauce_html.push(<Emoji symbol="🍄" label="sauce"/>)
-                    }
                 }
             }
 

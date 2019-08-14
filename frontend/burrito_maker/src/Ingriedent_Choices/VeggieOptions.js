@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { Form, Checkbox, Button } from 'semantic-ui-react'
+import { Form, Checkbox, Button, Header } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css';
 import {store_ingredient} from '../actions/actions'
 import Tortilla from '../Tortilla'
@@ -75,11 +75,11 @@ class VeggieOptions extends Component {
         />
         <Form>
         <Form.Field>
-          Choose your veggies
+            <Header as='h3'> Choose your Veggies </Header>
         </Form.Field>
         <Form.Field>
           <Checkbox
-            label='Corn'
+            label='Corn 🌽'
             name='checkboxRadioGroup'
             value='corn'
             checked={this.state.chosen_veggie.includes('corn')}
@@ -88,7 +88,7 @@ class VeggieOptions extends Component {
         </Form.Field>
         <Form.Field>
           <Checkbox
-            label='Lettuce'
+            label='Lettuce 🥗'
             name='checkboxRadioGroup'
             value='lettuce'
             checked={this.state.chosen_veggie.includes('lettuce')}
@@ -97,7 +97,7 @@ class VeggieOptions extends Component {
         </Form.Field>
         <Form.Field>
           <Checkbox
-            label='Avacado'
+            label='Avacado 🥑'
             name='checkboxRadioGroup'
             value='avacado'
             checked={this.state.chosen_veggie.includes('avacado')}
@@ -106,7 +106,7 @@ class VeggieOptions extends Component {
         </Form.Field>
         <Form.Field>
           <Checkbox
-            label='Mushrooms'
+            label='Mushrooms 🍄'
             name='checkboxRadioGroup'
             value='mushrooms'
             checked={this.state.chosen_veggie.includes('mushrooms')}

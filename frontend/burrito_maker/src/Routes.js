@@ -3,6 +3,7 @@ import { Route, Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import App from "./App"
 import Ingredients from './Ingredients'
+import Tracker from './Tracker'
 
 const mapStateToProps = state => {
   return {
@@ -18,6 +19,7 @@ class Routes extends Component {
       <div>
         <Switch>
           <Route exact path="/ingredients" component={Ingredients} />
+          <Route exact path="/tracker" component={Tracker} />
         </Switch>
       </div>
     );

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { Form, Checkbox, Button } from 'semantic-ui-react'
+import { Form, Checkbox, Button, Header } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css';
 import {store_ingredient} from '../actions/actions'
 import Emoji from '../Emoji'
@@ -73,11 +73,11 @@ class RiceOptions extends Component {
         />
         <Form>
         <Form.Field>
-          Choose your types of protein
+          <Header as='h3'> Choose your Rice </Header>
         </Form.Field>
         <Form.Field>
           <Checkbox
-            label='WhiteRice'
+            label='White Rice 🍙'
             name='checkboxRadioGroup'
             value='white_rice'
             checked={this.state.chosen_rice.includes('white_rice')}
@@ -86,7 +86,7 @@ class RiceOptions extends Component {
         </Form.Field>
         <Form.Field>
           <Checkbox
-            label='BrownRice'
+            label='Brown Rice 🍘'
             name='checkboxRadioGroup'
             value='brown_rice'
             checked={this.state.chosen_rice.includes('brown_rice')}

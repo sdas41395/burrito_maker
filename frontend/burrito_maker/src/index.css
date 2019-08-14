@@ -31,9 +31,26 @@ code {
   z-index: 2;
 }
 
+.tracker_id_burrito_list{
+  display: grid;
+  grid-template-columns: 300px 300px
+}
+
+.tracker_id_burrito_ingredient_list{
+  display: grid;
+  grid-template-columns: 100px 100px;
+}
+
+.tracker_id_burrito_information_layout{
+  display: grid;
+  grid-template-columns: 30% 50%;
+}
+
 
 .rainbow_title{
   background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { Form, Checkbox, Button } from 'semantic-ui-react'
+import { Form, Checkbox, Button, Header } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css';
 import {store_ingredient} from '../actions/actions'
 import Tortilla from '../Tortilla'
@@ -57,7 +57,7 @@ class SauceOptions extends Component {
     else{
         // User wants to return back. Set central struct to 0 to allow them to reselect
         this.props.store_ingredient('sauce', [])
-        this.props.finalize_modal_call()
+        this.props.complete_selection(step)
     }
   }
 
@@ -72,11 +72,11 @@ class SauceOptions extends Component {
         />
         <Form>
         <Form.Field>
-          Choose your sauces
+            <Header as='h3'> Choose your Extras </Header>
         </Form.Field>
         <Form.Field>
           <Checkbox
-            label='Hot Pepper Sauce'
+            label='Hot Pepper Sauce ️🌶️'
             name='checkboxRadioGroup'
             value='pepper'
             checked={this.state.chosen_sauce.includes('pepper')}
@@ -85,7 +85,7 @@ class SauceOptions extends Component {
         </Form.Field>
         <Form.Field>
           <Checkbox
-            label='Cheese'
+            label='Cheese 🧀'
             name='checkboxRadioGroup'
             value='cheese'
             checked={this.state.chosen_sauce.includes('cheese')}

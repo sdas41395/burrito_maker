@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { Form, Checkbox, Button } from 'semantic-ui-react'
+import { Form, Checkbox, Button, Header } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css';
 import {store_ingredient} from '../actions/actions'
 import Emoji from '../Emoji'
@@ -73,11 +73,11 @@ class MeatOptions extends Component {
         />
         <Form>
         <Form.Field>
-        Choose your types of protein
+        <Header as='h3'> Choose your Protein </Header>
         </Form.Field>
         <Form.Field>
           <Checkbox
-            label='Steak'
+            label='Steak 🥩'
             name='checkboxRadioGroup'
             value='steak'
             checked={this.state.chosen_meats.includes('steak')}
@@ -86,7 +86,7 @@ class MeatOptions extends Component {
         </Form.Field>
         <Form.Field>
           <Checkbox
-            label='Chicken'
+            label='Chicken 🍗'
             name='checkboxRadioGroup'
             value='chicken'
             checked={this.state.chosen_meats.includes('chicken')}
@@ -95,7 +95,7 @@ class MeatOptions extends Component {
         </Form.Field>
         <Form.Field>
           <Checkbox
-            label='Pork'
+            label='Pork 🍖'
             name='checkboxRadioGroup'
             value='pork'
             checked={this.state.chosen_meats.includes('pork')}
