@@ -11,3 +11,52 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.burrito_card{
+  background-image: url("./tortilla.jpg");
+}
+.burrito_card_grid{
+  display: grid;
+  grid-template-columns: 20px 20px 20px 20px 20px 20px 20px 20px;
+  position: absolute;
+  z-index: 1;
+}
+
+.burrito_card_grid_2{
+  display: grid;
+  position: absolute;
+
+  grid-template-columns: 20px 20px 20px 20px 20px 20px 20px 20px;
+  z-index: 2;
+}
+
+
+.ui.active.progress .bar{
+  background-color: #818D92!important
+}
+.ui.progress{
+  background-color: #ebf5ee!important;
+}
+
+.tracker_id_burrito_list{
+  display: grid;
+  grid-template-columns: 300px 300px
+}
+
+.tracker_id_burrito_ingredient_list{
+  display: grid;
+  grid-template-columns: 90px 90px;
+}
+
+.tracker_id_burrito_information_layout{
+  display: grid;
+  grid-template-columns: 30% 40% 30%;
+}
+
+.tracker_id_previous_records_layout{
+  display: grid;
+  grid-template-columns: 130px 200px;
+}
+
+
+

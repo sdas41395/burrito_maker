@@ -34,6 +34,7 @@ function intialize_app(state, action) {
         updateObject(state,
             {
                 ingredients : {
+                    'rice' : [],
                     'meat' : [],
                     'veggie' : [],
                     'sauce' : []

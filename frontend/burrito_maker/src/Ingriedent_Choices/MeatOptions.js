@@ -1,14 +1,17 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { Form, Checkbox, Button } from 'semantic-ui-react'
+import { Form, Checkbox, Button, Header } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css';
 import {store_ingredient} from '../actions/actions'
 import Emoji from '../Emoji'
+import Tortilla from '../Tortilla'
+
 
 
 const mapStateToProps = state => {
   return {
+    burrito_data : state.burrito_data.ingredients
   };
 };
 
@@ -26,6 +29,13 @@ class MeatOptions extends Component {
     chosen_meats : []
   };
   
+  componentDidMount(){
+    var local_meats = []
+    for (var meat_option in this.props.burrito_data.meat){
+      local_meats.push(this.props.burrito_data.meat[meat_option])
+    }
+    this.setState({chosen_meats : local_meats})
+  }
 
   add_ingredients_array = (value) => {
     // Adds or removes meat from meat array
@@ -41,28 +51,41 @@ class MeatOptions extends Component {
     }
 
     this.setState({chosen_meats : local_meats})
+    this.props.store_ingredient('meat', this.state.chosen_meats)
   }
 
-  send_to_struct = () => {
+  send_to_struct = (step) => {
     /* 
         Complete the selection for meat. 
         Pass state values to central data struct using actions and reducers
-        Update UI to next page
+        Update UI to next page or previous page
     */
-    this.props.store_ingredient('meat', this.state.chosen_meats)
-    this.props.complete_selection(1)
+    
+    if (step > 0){
+        this.props.complete_selection(step)
+    }
+    else{
+        // User wants to return back. Set central struct to 0 to allow them to reselect
+        this.props.store_ingredient('meat', [])
+        this.props.complete_selection(step)
+    }
   }
 
   render(){
     return (
       <div>
+        <center>
+        <Tortilla
+            ingredient = 'meat'
+            added_ingredients = {this.state.chosen_meats}
+        />
         <Form>
         <Form.Field>
-          Choose your types of meat
+        <Header as='h3'> Choose your Protein </Header>
         </Form.Field>
         <Form.Field>
           <Checkbox
-            label='Steak'
+            label='Steak 🥩'
             name='checkboxRadioGroup'
             value='steak'
             checked={this.state.chosen_meats.includes('steak')}
@@ -71,7 +94,7 @@ class MeatOptions extends Component {
         </Form.Field>
         <Form.Field>
           <Checkbox
-            label='Chicken'
+            label='Chicken 🍗'
             name='checkboxRadioGroup'
             value='chicken'
             checked={this.state.chosen_meats.includes('chicken')}
@@ -80,7 +103,7 @@ class MeatOptions extends Component {
         </Form.Field>
         <Form.Field>
           <Checkbox
-            label='Pork'
+            label='Pork 🍖'
             name='checkboxRadioGroup'
             value='pork'
             checked={this.state.chosen_meats.includes('pork')}
@@ -88,13 +111,17 @@ class MeatOptions extends Component {
           />
         </Form.Field>
       </Form>
-
-        {JSON.stringify(this.state.chosen_meats)}
-        <Button primary onClick={this.send_to_struct.bind(this)}>
+        <br/>
+        <Button primary onClick={this.send_to_struct.bind(this,-1)}>
+            Rice
+        </Button>
+        <Button primary onClick={this.send_to_struct.bind(this,1)}>
             Next Step
         </Button>
-            
         
+        
+        </center>
+
       </div>
     );
   }

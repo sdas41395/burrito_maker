@@ -1,14 +1,17 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { Form, Checkbox, Button } from 'semantic-ui-react'
+import { Form, Checkbox, Button, Header } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css';
 import {store_ingredient} from '../actions/actions'
+import Tortilla from '../Tortilla'
+
 
 
 
 const mapStateToProps = state => {
   return {
+    burrito_data : state.burrito_data.ingredients
   };
 };
 
@@ -24,6 +27,14 @@ class VeggieOptions extends Component {
     ingredient : 'veggie',
     chosen_veggie : []
   };
+
+  componentDidMount(){
+    var local_veggie = []
+    for (var veggie_option in this.props.burrito_data.veggie){
+        local_veggie.push(this.props.burrito_data.veggie[veggie_option])
+    }
+    this.setState({chosen_veggie : local_veggie})
+  }
   
 
   add_ingredients_array = (value) => {
@@ -40,6 +51,8 @@ class VeggieOptions extends Component {
     }
 
     this.setState({chosen_veggie : local_veggie})
+    this.props.store_ingredient('veggie', this.state.chosen_veggie)
+
   }
 
   send_to_struct = (step) => {
@@ -50,7 +63,6 @@ class VeggieOptions extends Component {
     */
     
     if (step > 0){
-        this.props.store_ingredient('veggie', this.state.chosen_veggie)
         this.props.complete_selection(step)
     }
     else{
@@ -65,36 +77,62 @@ class VeggieOptions extends Component {
   render(){
     return (
       <div>
+        <center>
+        <Tortilla
+          ingredient = 'veggie'
+          added_ingredients = {this.state.chosen_veggie}        
+        />
         <Form>
         <Form.Field>
-          Choose your veggies
+            <Header as='h3'> Choose your Veggies </Header>
         </Form.Field>
         <Form.Field>
           <Checkbox
-            label='Beans'
-            name='checkboxRadioGroup'
-            value='beans'
-            checked={this.state.chosen_veggie.includes('beans')}
-            onChange={this.add_ingredients_array.bind(this,'beans')}
-          />
-        </Form.Field>
-        <Form.Field>
-          <Checkbox
-            label='Corn'
+            label='Corn 🌽'
             name='checkboxRadioGroup'
             value='corn'
             checked={this.state.chosen_veggie.includes('corn')}
             onChange={this.add_ingredients_array.bind(this,'corn')}
           />
         </Form.Field>
+        <Form.Field>
+          <Checkbox
+            label='Lettuce 🥗'
+            name='checkboxRadioGroup'
+            value='lettuce'
+            checked={this.state.chosen_veggie.includes('lettuce')}
+            onChange={this.add_ingredients_array.bind(this,'lettuce')}
+          />
+        </Form.Field>
+        <Form.Field>
+          <Checkbox
+            label='Avacado 🥑'
+            name='checkboxRadioGroup'
+            value='avacado'
+            checked={this.state.chosen_veggie.includes('avacado')}
+            onChange={this.add_ingredients_array.bind(this,'avacado')}
+          />
+        </Form.Field>
+        <Form.Field>
+          <Checkbox
+            label='Mushrooms 🍄'
+            name='checkboxRadioGroup'
+            value='mushrooms'
+            checked={this.state.chosen_veggie.includes('mushrooms')}
+            onChange={this.add_ingredients_array.bind(this,'mushrooms')}
+          />
+        </Form.Field>
       </Form>
-      {JSON.stringify(this.state.chosen_veggie)}
-      <Button primary onClick={this.send_to_struct.bind(this,-1)}>
-            Go Back
+        <br/>
+        <Button primary onClick={this.send_to_struct.bind(this,-1)}>
+            Meat
         </Button>
         <Button primary onClick={this.send_to_struct.bind(this,1)}>
             Next Step
         </Button>
+        
+        </center>
+        
 
       </div>
     );
